@@ -2,8 +2,8 @@ function refreshWeather(response) {
   //API to change the temperature to live data
   let currentTemperature = document.querySelector("#temperature");
   let currentCity = document.querySelector("#current-city");
-  let temperature = response.data.temperature.current;
-  currentTemperature.innerHTML = Math.round(temperature);
+  let temperatureElement = response.data.temperature.current;
+  currentTemperature.innerHTML = Math.round(temperatureElement);
 
   //API to change the name of the city and country
   let cityName = response.data.city;
@@ -98,6 +98,11 @@ function search(event) {
 }
 
 //forecast week 8
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let days = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
+  return days[date.getDay()];
+}
 
 function getForecast(city) {
   let apiKey2 = "3c7309d28c043t607b2dfaaod68ce09a";
@@ -108,22 +113,25 @@ function getForecast(city) {
 function displayForecast(response) {
   console.log(response.data);
   //create an array with all the days of the week needed
-  let days = ["Tue", "Wed", "Thur", "Fri", "Sat"];
 
   let forecastHtml = " ";
 
   //loop
-  days.forEach(function (day) {
-    forecastHtml =
-      forecastHtml +
-      `<div class="forecast-day">
-  <div class="forcast-date">${day}</div>
-  <div class="forecast-icon">⛅</div>
+  response.data.daily.forEach(function (day, index) {
+    if (index < 5) {
+      forecastHtml =
+        forecastHtml +
+        `<div class="forecast-day">
+  <div class="forcast-date">${formatDay(day.time)}</div>
+  <div  ><img src="${day.condition.icon_url}" class="forecast-icon"></div>
   <div class="forecast-temps">
-  <div class="temps"><strong> 15° </strong></div>
-  <div class="temps">6°</div>
+  <div class="temps"><strong> ${Math.round(
+    day.temperature.maximum
+  )}° </strong></div>
+  <div class="temps">${Math.round(day.temperature.minimum)}°</div>
   </div>
   </div>`;
+    }
   });
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = forecastHtml;

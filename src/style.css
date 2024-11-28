@@ -139,8 +139,8 @@ main {
 }
 
 .forecast-icon {
-  text-align: center;
-  font-size: 30px;
+  width: 70px;
+  height: 70px;
 }
 
 .forecast-temps {
@@ -151,7 +151,7 @@ main {
   margin-top: 5px;
 }
 .temps {
-  padding: 0 8px;
+  padding: 0 5px;
 }
 
 footer {
