@@ -32,6 +32,8 @@ function refreshWeather(response) {
   let iconElement = document.querySelector("#icon");
   timeElement.innerHTML = formatDate(date);
   iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="temperature-icon" >`;
+
+  getForecast(response.data.city);
 }
 
 function formatDate(date) {
@@ -84,6 +86,7 @@ function searchCity(city) {
   //make api call and update interface
   let apiKey = "3c7309d28c043t607b2dfaaod68ce09a";
   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+
   axios.get(apiUrl).then(refreshWeather);
 }
 
@@ -96,11 +99,18 @@ function search(event) {
 
 //forecast week 8
 
-function displayForecast() {
+function getForecast(city) {
+  let apiKey2 = "3c7309d28c043t607b2dfaaod68ce09a";
+  let apiUrl2 = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey2}&units=metric`;
+  axios.get(apiUrl2).then(displayForecast);
+}
+
+function displayForecast(response) {
+  console.log(response.data);
   //create an array with all the days of the week needed
   let days = ["Tue", "Wed", "Thur", "Fri", "Sat"];
 
-  let forecastHtml = "";
+  let forecastHtml = " ";
 
   //loop
   days.forEach(function (day) {
@@ -115,12 +125,11 @@ function displayForecast() {
   </div>
   </div>`;
   });
-  let forecast = document.querySelector("#forecast");
-  forecast.innerHTML = forecastHtml;
+  let forecastElement = document.querySelector("#forecast");
+  forecastElement.innerHTML = forecastHtml;
 }
 
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
 
 searchCity("Johannesburg");
-displayForecast();
