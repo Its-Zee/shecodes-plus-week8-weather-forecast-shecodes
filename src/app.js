@@ -93,7 +93,34 @@ function search(event) {
   let searchInput = document.querySelector("#search-input");
   searchCity(searchInput.value);
 }
+
+//forecast week 8
+
+function displayForecast() {
+  //create an array with all the days of the week needed
+  let days = ["Tue", "Wed", "Thur", "Fri", "Sat"];
+
+  let forecastHtml = "";
+
+  //loop
+  days.forEach(function (day) {
+    forecastHtml =
+      forecastHtml +
+      `<div class="forecast-day">
+  <div class="forcast-date">${day}</div>
+  <div class="forecast-icon">⛅</div>
+  <div class="forecast-temps">
+  <div class="temps"><strong> 15° </strong></div>
+  <div class="temps">6°</div>
+  </div>
+  </div>`;
+  });
+  let forecast = document.querySelector("#forecast");
+  forecast.innerHTML = forecastHtml;
+}
+
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
 
 searchCity("Johannesburg");
+displayForecast();
